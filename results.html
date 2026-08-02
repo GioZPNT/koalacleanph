@@ -1,505 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Koala Laundry Tracker</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-
-    font-family:'Poppins',sans-serif;
-
-    background:#f5f7fb;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    min-height:100vh;
-
-    color:#2f3b52;
-
-}
-
-.container{
-
-    width:90%;
-
-    max-width:750px;
-
-}
-
-.card{
-
-    background:#fff;
-
-    border-radius:20px;
-
-    padding:40px;
-
-    box-shadow:0 15px 35px rgba(0,0,0,.08);
-
-}
-
-.logo{
-
-    text-align:center;
-
-    font-size:30px;
-
-    font-weight:600;
-
-    margin-bottom:10px;
-
-}
-
-.subtitle{
-
-    text-align:center;
-
-    color:#777;
-
-    margin-bottom:35px;
-
-}
-
-.status{
-
-    text-align:center;
-
-    font-size:32px;
-
-    font-weight:bold;
-
-    margin-bottom:30px;
-
-}
-
-.progress{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    margin:35px 0;
-
-    position:relative;
-
-}
-
-.progress::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:20px;
-
-    left:0;
-
-    right:0;
-
-    height:4px;
-
-    background:#ddd;
-
-    z-index:0;
-
-}
-
-.step{
-
-    position:relative;
-
-    z-index:2;
-
-    text-align:center;
-
-    flex:1;
-
-}
-
-.circle{
-
-    width:40px;
-
-    height:40px;
-
-    border-radius:50%;
-
-    background:#ccc;
-
-    color:white;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    margin:auto;
-
-    font-weight:bold;
-
-}
-
-.completed .circle{
-
-    background:#4CAF50;
-
-}
-
-.current .circle{
-
-    background:#ff9800;
-
-}
-
-.label{
-
-    margin-top:10px;
-
-    font-size:14px;
-
-}
-
-table{
-
-    width:100%;
-
-    border-collapse:collapse;
-
-    margin-top:25px;
-
-}
-
-td{
-
-    padding:15px;
-
-    border-bottom:1px solid #ececec;
-
-}
-
-td:first-child{
-
-    font-weight:600;
-
-    width:220px;
-
-}
-
-button{
-
-    margin-top:35px;
-
-    width:100%;
-
-    padding:18px;
-
-    border:none;
-
-    border-radius:50px;
-
-    background:#4CAF50;
-
-    color:white;
-
-    font-size:16px;
-
-    cursor:pointer;
-
-}
-
-button:hover{
-
-    background:#429845;
-
-}
-
-.error{
-
-    text-align:center;
-
-    color:#d32f2f;
-
-    font-size:22px;
-
-    padding:50px;
-
-}
-
-.loading{
-
-    text-align:center;
-
-    font-size:22px;
-
-    padding:50px;
-
-}
-
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Koala Laundry Tracker</title>
+  <meta name="description" content="Track your laundry status with Koala Laundry Tracker." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#fff;
+      --text:#2f3b52;
+      --muted:#777;
+      --accent:#4CAF50;
+      --accent-hover:#429845;
+      --warn:#ff9800;
+      --error:#d32f2f;
+      --line:#ececec;
+      font-size:16px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:1rem;
+    }
+
+    .container{width:100%;max-width:820px}
+    .card{
+      background:var(--card);
+      border-radius:16px;
+      padding:28px;
+      box-shadow:0 10px 30px rgba(0,0,0,.06);
+    }
+
+    header.logo{
+      text-align:center;
+      margin-bottom:6px;
+    }
+
+    header .brand{font-size:1.25rem;font-weight:600}
+    header .subtitle{color:var(--muted);text-align:center;margin-bottom:22px}
+
+    .status{
+      text-align:center;
+      font-size:1.4rem;
+      font-weight:700;
+      margin-bottom:1rem;
+    }
+
+    .progress{
+      display:flex;
+      gap:12px;
+      justify-content:space-between;
+      margin:22px 0;
+      position:relative;
+      align-items:center;
+    }
+
+    .progress::before{
+      content:"";
+      position:absolute;
+      top:22px;
+      left:0;
+      right:0;
+      height:4px;
+      background:#ddd;
+      z-index:0;
+      border-radius:2px;
+    }
+
+    .step{position:relative;z-index:2;text-align:center;flex:1;min-width:64px}
+    .circle{
+      width:40px;height:40px;border-radius:50%;background:#ccc;color:white;display:flex;align-items:center;justify-content:center;margin:auto;font-weight:700;
+    }
+    .step.completed .circle{background:var(--accent)}
+    .step.current .circle{background:var(--warn)}
+    .label{margin-top:8px;font-size:.875rem;color:var(--muted)}
+
+    table{width:100%;border-collapse:collapse;margin-top:18px}
+    th,td{padding:12px 8px;border-bottom:1px solid var(--line);text-align:left}
+    th{width:220px;font-weight:600;color:var(--text);vertical-align:top}
+    td{vertical-align:top}
+
+    .controls{margin-top:20px;display:flex;gap:12px}
+    button{
+      padding:12px 16px;border:none;border-radius:999px;background:var(--accent);color:white;font-size:1rem;cursor:pointer;
+    }
+    button[type="button"]:hover{background:var(--accent-hover)}
+    button.secondary{background:#eee;color:var(--text)}
+    button.secondary:focus{outline:3px solid rgba(0,0,0,.08)}
+
+    .error, .loading{
+      text-align:center;font-size:1.125rem;padding:30px;color:var(--error)
+    }
+
+    /* focus-visible */
+    :focus{outline:none}
+    :focus-visible{outline:3px solid rgba(66, 152, 69, .25);border-radius:6px}
+
+    @media (max-width:520px){
+      th{display:block;width:100%}
+      td{display:block}
+      .progress{gap:8px}
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <div class="card" role="region" aria-labelledby="pageTitle">
+      <header class="logo">
+        <div class="brand">KOALA LAUNDRY</div>
+        <div class="subtitle">Laundry Tracking System</div>
+      </header>
 
-<div class="container">
+      <main id="content" aria-live="polite">
+        <div class="loading" id="initialLoading">Looking up your laundry...</div>
+      </main>
 
-<div class="card">
+      <noscript>
+        <div style="padding:16px;color:#333;background:#fff;border-radius:8px;margin-top:12px">
+          JavaScript is required to track an order. Please enable JavaScript and reload.
+        </div>
+      </noscript>
+    </div>
+  </div>
 
-<div class="logo">
-KOALA LAUNDRY
-</div>
+  <script>
+    // Config: put non-sensitive configuration here. If the endpoint requires a secret, do not keep it in the client.
+    const scriptURL = document.currentScript.getAttribute('data-script-url')
+      || "https://script.google.com/macros/s/AKfycby4VsR76xlHLwHz6Q6J47ExCrvHaqApeRlNTNI9QLrAUyyNppzgt2wV76XkeW3vLzBv/exec?code=";
 
-<div class="subtitle">
-Laundry Tracking System
-</div>
+    // Helpers
+    function qs(key) { return new URLSearchParams(window.location.search).get(key) }
+    function el(tag, attrs = {}, children = []) {
+      const node = document.createElement(tag);
+      Object.entries(attrs).forEach(([k,v])=>{
+        if(k === 'text') node.textContent = v;
+        else if(k === 'html') node.innerHTML = v;
+        else node.setAttribute(k,v);
+      });
+      (Array.isArray(children) ? children : [children]).forEach(c => { if(c) node.appendChild(c) });
+      return node;
+    }
 
-<div id="content">
+    // Build a safe element for the main content (no innerHTML with server data)
+    function renderLaundry(data){
+      const container = document.createElement('div');
 
-<div class="loading">
-Looking up your laundry...
-</div>
+      // status
+      const status = el('div', { class: 'status', text: data.status || 'Unknown' });
 
-</div>
+      // progress
+      const stage = getStage(data.status || '');
+      const progress = el('div', { class: 'progress' });
 
-</div>
+      const steps = [
+        ['1','Received'],
+        ['2','Washing'],
+        ['3','Drying'],
+        ['4','Folding'],
+        ['5','Ready']
+      ];
 
-</div>
+      steps.forEach((s, idx) => {
+        const done = stage >= idx+1;
+        const current = stage === idx+1;
+        const stepEl = el('div', { class: 'step' + (done ? ' completed' : '') + (current ? ' current' : '') });
+        stepEl.appendChild(el('div',{class:'circle', text:s[0]}));
+        stepEl.appendChild(el('div',{class:'label', text:s[1]}));
+        progress.appendChild(stepEl);
+      });
 
-<script>
+      // table with safe text insertion
+      const table = el('table');
+      const tbody = document.createElement('tbody');
 
-const scriptURL =
-"https://script.google.com/macros/s/AKfycby4VsR76xlHLwHz6Q6J47ExCrvHaqApeRlNTNI9QLrAUyyNppzgt2wV76XkeW3vLzBv/exec?code=";
+      function row(label, value){
+        const tr = document.createElement('tr');
+        const th = document.createElement('th'); th.textContent = label;
+        const td = document.createElement('td'); td.textContent = value ?? '';
+        tr.appendChild(th); tr.appendChild(td);
+        return tr;
+      }
 
-const params =
-new URLSearchParams(window.location.search);
+      tbody.appendChild(row('Tracking Code', data.trackingCode));
+      tbody.appendChild(row('Customer', data.customer));
+      tbody.appendChild(row('Receipt Date', formatDate(data.receiptDate)));
+      tbody.appendChild(row('Service', data.service));
+      tbody.appendChild(row('Last Updated', formatDateTime(data.updated)));
 
-const trackingCode =
-params.get("code");
+      table.appendChild(tbody);
 
-if(trackingCode==null){
+      // controls
+      const controls = el('div',{class:'controls'});
+      const trackAnother = el('button',{type:'button', text:'Track Another Laundry'});
+      trackAnother.addEventListener('click', ()=> window.location='index.html');
+      controls.appendChild(trackAnother);
 
-    window.location.href="index.html";
+      container.appendChild(status);
+      container.appendChild(progress);
+      container.appendChild(table);
+      container.appendChild(controls);
 
-}
+      return container;
+    }
 
-loadLaundry(trackingCode);
+    function renderNotFound(){
+      const d = document.createElement('div');
+      d.className = 'error';
+      d.textContent = 'Tracking Code Not Found. Please check your receipt and try again.';
+      const btn = el('div',{},[el('button',{type:'button', text:'Search Again'})]);
+      btn.querySelector('button').addEventListener('click', ()=> window.location='index.html');
+      const wrapper = el('div');
+      wrapper.appendChild(d);
+      wrapper.appendChild(btn);
+      return wrapper;
+    }
 
-async function loadLaundry(code){
+    function renderNetworkError(){
+      const wrapper = document.createElement('div');
+      wrapper.className = 'error';
+      wrapper.textContent = 'Unable to connect to server. Please check your connection.';
+      const retry = el('button',{type:'button', text:'Retry'});
+      retry.addEventListener('click', ()=> { start(); });
+      const back = el('button',{type:'button', text:'Back', class:'secondary'});
+      back.addEventListener('click', ()=> window.location='index.html');
+      const ctrl = el('div',{class:'controls'});
+      ctrl.appendChild(retry);
+      ctrl.appendChild(back);
+      const container = el('div');
+      container.appendChild(wrapper);
+      container.appendChild(ctrl);
+      return container;
+    }
 
-    try{
+    function getStage(status){
+      switch(String(status || '').toLowerCase()){
+        case 'received': return 1;
+        case 'washing': return 2;
+        case 'drying': return 3;
+        case 'folding': return 4;
+        case 'ready':
+        case 'ready for pickup': return 5;
+        default: return 1;
+      }
+    }
 
-        const response =
-        await fetch(
-        scriptURL +
-        encodeURIComponent(code));
+    // Formatters
+    function formatDate(iso){
+      if(!iso) return '';
+      try {
+        const d = new Date(iso);
+        return new Intl.DateTimeFormat(undefined, { year:'numeric', month:'short', day:'numeric' }).format(d);
+      } catch(e){ return iso }
+    }
+    function formatDateTime(iso){
+      if(!iso) return '';
+      try {
+        const d = new Date(iso);
+        return new Intl.DateTimeFormat(undefined, { year:'numeric', month:'short', day:'numeric', hour:'numeric', minute:'2-digit' }).format(d);
+      } catch(e){ return iso }
+    }
 
-        const data =
-        await response.json();
+    // Robust fetch with timeout and error handling
+    async function fetchWithTimeout(url, timeout = 8000){
+      const controller = new AbortController();
+      const id = setTimeout(()=> controller.abort(), timeout);
+      try{
+        const res = await fetch(url, { signal: controller.signal, credentials: 'omit' });
+        clearTimeout(id);
+        return res;
+      } catch(err){
+        clearTimeout(id);
+        throw err;
+      }
+    }
 
-        if(data.found){
+    // Load and render
+    async function loadLaundry(code){
+      const content = document.getElementById('content');
+      content.innerHTML = '';
+      content.appendChild(el('div',{class:'loading', text:'Looking up your laundry...'}));
 
-            displayLaundry(data);
+      try{
+        const url = scriptURL + encodeURIComponent(String(code || ''));
+        const res = await fetchWithTimeout(url, 9000);
 
-        }else{
-
-            showNotFound();
-
+        if(!res.ok){
+          // server returned 4xx/5xx
+          console.error('Server error', res.status);
+          content.innerHTML = '';
+          content.appendChild(renderNetworkError());
+          return;
         }
 
-    }catch(err){
+        // Try parse JSON with try/catch
+        let data;
+        try{
+          data = await res.json();
+        } catch(parseErr){
+          console.error('Invalid JSON', parseErr);
+          content.innerHTML = '';
+          content.appendChild(renderNetworkError());
+          return;
+        }
 
-        console.log(err);
+        if(data && data.found){
+          content.innerHTML = '';
+          content.appendChild(renderLaundry(data));
+        } else {
+          content.innerHTML = '';
+          content.appendChild(renderNotFound());
+        }
 
-        document.getElementById("content").innerHTML=`
-
-        <div class="error">
-
-        Unable to connect to server.
-
-        </div>
-
-        `;
-
+      }catch(err){
+        console.error('Fetch error', err);
+        content.innerHTML = '';
+        content.appendChild(renderNetworkError());
+      }
     }
 
-}
-
-function displayLaundry(data){
-
-    const stage = getStage(data.status);
-
-    document.getElementById("content").innerHTML=`
-
-<div class="status">
-
-${data.status}
-
-</div>
-
-<div class="progress">
-
-${step(stage>=1,stage==1,"1","Received")}
-
-${step(stage>=2,stage==2,"2","Washing")}
-
-${step(stage>=3,stage==3,"3","Drying")}
-
-${step(stage>=4,stage==4,"4","Folding")}
-
-${step(stage>=5,stage==5,"5","Ready")}
-
-</div>
-
-<table>
-
-<tr>
-
-<td>Tracking Code</td>
-
-<td>${data.trackingCode}</td>
-
-</tr>
-
-<tr>
-<td>Customer</td>
-<td>${data.customer}</td>
-</tr>
-
-<tr>
-<td>Receipt Date</td>
-<td>${data.receiptDate}</td>
-</tr>
-
-<tr>
-<td>Service</td>
-<td>${data.service}</td>
-</tr>
-
-<tr>
-<td>Last Updated</td>
-<td>${data.updated}</td>
-</tr>
-
-<button onclick="window.location='index.html'">
-
-Track Another Laundry
-
-</button>
-
-`;
-
-}
-
-function step(done,current,number,label){
-
-    let cls="";
-
-    if(done){
-
-        cls="completed";
-
+    // Kick off
+    function start(){
+      const trackingCode = qs('code');
+      if(!trackingCode){
+        // Instead of immediate redirect, show message and a link to index so user isn't bounced unexpectedly
+        const content = document.getElementById('content');
+        content.innerHTML = '';
+        const msg = el('div',{class:'error', text:'No tracking code provided.'});
+        const backBtn = el('button',{type:'button', text:'Go to tracking page'});
+        backBtn.addEventListener('click', ()=> window.location='index.html');
+        const container = el('div');
+        container.appendChild(msg);
+        container.appendChild(el('div',{class:'controls'}, [backBtn]));
+        content.appendChild(container);
+        return;
+      }
+      loadLaundry(trackingCode.trim());
     }
 
-    if(current){
-
-        cls="current";
-
-    }
-
-    return`
-
-<div class="step ${cls}">
-
-<div class="circle">
-
-${number}
-
-</div>
-
-<div class="label">
-
-${label}
-
-</div>
-
-</div>
-
-`;
-
-}
-
-function getStage(status){
-
-    switch(status.toLowerCase()){
-
-        case "received":
-            return 1;
-
-        case "washing":
-            return 2;
-
-        case "drying":
-            return 3;
-
-        case "folding":
-            return 4;
-
-        case "ready":
-        case "ready for pickup":
-            return 5;
-
-        default:
-            return 1;
-
-    }
-
-}
-
-function showNotFound(){
-
-document.getElementById("content").innerHTML=`
-
-<div class="error">
-
-Tracking Code Not Found
-
-<br><br>
-
-Please check your receipt and try again.
-
-<br><br>
-
-<button onclick="window.location='index.html'">
-
-Search Again
-
-</button>
-
-</div>
-
-`;
-
-}
-
-</script>
-
+    // Run on load
+    start();
+  </script>
 </body>
 </html>
