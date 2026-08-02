@@ -43,6 +43,11 @@
 
 <script>
 
+      form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            trackLaundry();
+        });
+
 async function trackLaundry(){
 
         const code = document
