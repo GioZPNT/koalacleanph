@@ -48,6 +48,26 @@
             trackLaundry();
         });
 
+return ContentService
+.createTextOutput(JSON.stringify({
+
+    found: true,
+
+    trackingCode: values[i][0],     // ReferenceID
+
+    receiptDate: values[i][1],      // ReceiptDate
+
+    service: values[i][2],          // Service
+
+    status: values[i][3],           // Status
+
+    updated: values[i][4],          // LastUpdate
+
+    customer: values[i][5]          // User
+
+}))
+.setMimeType(ContentService.MimeType.JSON);
+
 async function trackLaundry(){
 
         const code = document
