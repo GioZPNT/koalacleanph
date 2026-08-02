@@ -286,7 +286,7 @@ Looking up your laundry...
 <script>
 
 const scriptURL =
-"https://script.google.com/macros/s/AKfycby4VsR76xlHLwHz6Q6J47ExCrvHaqApeRlNTNI9QLrAUyyNppzgt2wV76XkeW3vLzBv/exec";
+"https://script.google.com/macros/s/AKfycby4VsR76xlHLwHz6Q6J47ExCrvHaqApeRlNTNI9QLrAUyyNppzgt2wV76XkeW3vLzBv/exec?code=";
 
 const params =
 new URLSearchParams(window.location.search);
@@ -309,7 +309,6 @@ async function loadLaundry(code){
         const response =
         await fetch(
         scriptURL +
-        "https://script.google.com/macros/s/AKfycby4VsR76xlHLwHz6Q6J47ExCrvHaqApeRlNTNI9QLrAUyyNppzgt2wV76XkeW3vLzBv/exec?code=" +
         encodeURIComponent(code));
 
         const data =
@@ -380,38 +379,24 @@ ${step(stage>=5,stage==5,"5","Ready")}
 </tr>
 
 <tr>
-
 <td>Customer</td>
-
 <td>${data.customer}</td>
-
 </tr>
 
 <tr>
+<td>Receipt Date</td>
+<td>${data.receiptDate}</td>
+</tr>
 
+<tr>
 <td>Service</td>
-
 <td>${data.service}</td>
-
 </tr>
 
 <tr>
-
-<td>Estimated Completion</td>
-
-<td>${data.eta}</td>
-
-</tr>
-
-<tr>
-
 <td>Last Updated</td>
-
 <td>${data.updated}</td>
-
 </tr>
-
-</table>
 
 <button onclick="window.location='index.html'">
 
