@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koala Laundry Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+    <img src="logo.png" class="logo" alt="Koala Laundry">
+
+    <h1>Track Your Laundry</h1>
+
+    <p class="subtitle">
+        Enter your tracking code to view your laundry status.
+    </p>
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="trackingCode"
+            placeholder="Enter Tracking Code">
+
+        <button onclick="trackLaundry()">
+            Track Laundry
+        </button>
+
+    </div>
+
+    <div id="result" class="result">
+
+    </div>
+
+</div>
+
+<script>
+
+async function trackLaundry(){
+
+    const code =
+        document.getElementById("trackingCode").value.trim();
+
+    if(code===""){
+        alert("Please enter a tracking code.");
+        return;
+    }
+
+    // Replace with your Apps Script URL
+    const api =
+    "https://script.google.com/macros/s/AKfycby4VsR76xlHLwHz6Q6J47ExCrvHaqApeRlNTNI9QLrAUyyNppzgt2wV76XkeW3vLzBv/exec"+encodeURIComponent(code);
+
+    try{
+
+        const response = await fetch(api);
+        const data = await response.json();
+
+        const result =
+        document.getElementById("result");
+
+        if(data.found){
+
+            result.innerHTML = `
+                <div class="card">
+
+                    <h2>${data.status}</h2>
+
+                    <p><strong>Service</strong><br>${data.service}</p>
+
+                    <p><strong>Estimated Completion</strong><br>${data.eta}</p>
+
+                    <p><strong>Last Updated</strong><br>${data.lastUpdated}</p>
+
+                </div>
+            `;
+
+        }else{
+
+            result.innerHTML = `
+                <div class="error">
+                    Tracking code not found.
+                </div>
+            `;
+
+        }
+
+    }catch(error){
+
+        document.getElementById("result").innerHTML = `
+            <div class="error">
+                Unable to connect to the server.
+            </div>
+        `;
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
